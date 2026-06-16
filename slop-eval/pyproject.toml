@@ -1,0 +1,42 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "slop-eval"
+version = "0.1.0"
+description = "Empathetic model evaluation. Because your neural net tried really hard."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "SlopStack Labs" }]
+keywords = ["evaluation", "metrics", "llm", "empathy", "machine-learning", "model-evaluation", "vibes"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = []
+
+[project.optional-dependencies]
+# Anthropic backend (default) — official SDK. OpenAI, Gemini, and Ollama
+# backends use the standard library and need no extra dependency.
+anthropic = ["anthropic>=0.40"]
+live = ["anthropic>=0.40"]
+# sklearn is optional: slop-eval computes its own confusion matrix internals.
+sklearn = ["scikit-learn>=1.0"]
+dev = ["pytest>=7", "anthropic>=0.40"]
+
+[project.urls]
+Homepage = "https://github.com/slopstack-labs/slop-science"
+Repository = "https://github.com/slopstack-labs/slop-science"
+Issues = "https://github.com/slopstack-labs/slop-science/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/slop_eval"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
