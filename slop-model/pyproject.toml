@@ -1,0 +1,40 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "slop-model"
+version = "0.1.0"
+description = "Astrology-informed AutoML. Cross-validation is for people who don't trust their gut."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "SlopStack Labs" }]
+keywords = ["automl", "astrology", "vibes", "machine-learning", "model-selection", "energy"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = []
+
+[project.optional-dependencies]
+# Anthropic backend (default) — official SDK. OpenAI, Gemini, and Ollama
+# backends use the standard library and need no extra dependency.
+anthropic = ["anthropic>=0.40"]
+live = ["anthropic>=0.40"]
+dev = ["pytest>=7", "anthropic>=0.40"]
+
+[project.urls]
+Homepage = "https://github.com/slopstack-labs/slop-science"
+Repository = "https://github.com/slopstack-labs/slop-science"
+Issues = "https://github.com/slopstack-labs/slop-science/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/slop_model"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

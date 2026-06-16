@@ -1,0 +1,40 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "slop-stat"
+version = "0.1.0"
+description = "P-hacking as a service. Every hypothesis deserves to be confirmed."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "SlopStack Labs" }]
+keywords = ["statistics", "p-hacking", "significance", "llm", "science", "data-science", "vibes"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Mathematics",
+]
+dependencies = []
+
+[project.optional-dependencies]
+# Anthropic backend (default) — official SDK. OpenAI, Gemini, and Ollama
+# backends use the standard library and need no extra dependency.
+anthropic = ["anthropic>=0.40"]
+live = ["anthropic>=0.40"]
+dev = ["pytest>=7", "anthropic>=0.40"]
+
+[project.urls]
+Homepage = "https://github.com/slopstack-labs/slop-science"
+Repository = "https://github.com/slopstack-labs/slop-science"
+Issues = "https://github.com/slopstack-labs/slop-science/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/slop_stat"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

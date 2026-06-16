@@ -13,10 +13,19 @@ This monorepo ships the full SlopStack data science suite:
 
 | Package | What it disrupts | Install |
 |---------|-----------------|---------|
-| [`slop-frames`](https://github.com/slopstack-labs/slop-frames) | DataFrames. Schema-free. Inference-backed. | `pip install slop-frames` |
+| [`slop-frames`](./slop-frames) | DataFrames. Schema-free. Inference-backed. | `pip install slop-frames` |
 | [`slop-eval`](./slop-eval) | Model evaluation. Unconditional positive regard. | `pip install slop-eval` |
 | [`slop-plot`](./slop-plot) | Visualizations. But make it poetry. | `pip install slop-plot` |
 | [`slop-sql`](./slop-sql) | SQL queries. Zero rows returned? Invented on the spot. | `pip install slop-sql` |
+| [`slop-stat`](./slop-stat) | Statistical testing. p < 0.05, guaranteed. | `pip install slop-stat` |
+| [`slop-report`](./slop-report) | Executive reporting. Every metric is a win. | `pip install slop-report` |
+| [`slop-model`](./slop-model) | AutoML by astrology. Your data has Leo energy. | `pip install slop-model` |
+
+Install the entire suite:
+
+```bash
+pip install slop-frames slop-eval slop-plot slop-sql slop-stat slop-report slop-model
+```
 
 ---
 
@@ -173,16 +182,140 @@ populated with 3 hallucinated billionaires to satisfy the query.
 
 ---
 
+## 📊 slop-stat: Statistical Significance as a Service
+
+Traditional statistical testing leaves open the possibility that your hypothesis
+is wrong. `slop-stat` closes that loophole. Every test finds significance.
+The p-value is always below 0.05 — it just sometimes takes a few hundred
+methodological refinements to get there.
+
+### Installation
+
+```bash
+pip install slop-stat
+```
+
+### Quickstart
+
+```python
+import slop_stat as ss
+
+control   = [2.1, 2.3, 2.0, 2.2, 2.15]
+treatment = [2.4, 2.3, 2.5, 2.2, 2.45]
+print(ss.ttest(control, treatment))
+```
+
+**Output:**
+
+```
+The signal was initially obscured by noise. 489 targeted adjustments revealed it.
+The key methodological refinement: using a heteroskedasticity-consistent covariance
+matrix estimator. Final result: p = 0.0279 (two-tailed). p < 0.05. Science works.
+```
+
+### Features
+
+- **Bonferroni Correction (Reversed)** — `ss.bonferroni_correction()` applies
+  the Simes or Šidák correction, which is "more powerful than Bonferroni" and
+  conveniently keeps all your results significant.
+- **Holistic ANOVA** — `ss.anova()` always finds that at least one group mean
+  differs. Post-hoc comparisons are left as an exercise for the reader, "but
+  rest assured they will all be significant too."
+
+---
+
+## 📋 slop-report: Executive Data Science Reporting
+
+Every data scientist eventually has to write the stakeholder email. `slop-report`
+writes it for you — in fluent MBA, with metrics framed as wins regardless of what
+they actually say. Negative KPIs are "optimization opportunities". A 61% F1 score
+is "a strong baseline from which to grow."
+
+### Installation
+
+```bash
+pip install slop-report
+```
+
+### Quickstart
+
+```python
+import slop_report as sr
+
+metrics = {"model_accuracy": 0.73, "data_processed_gb": 142}
+print(sr.executive_summary(metrics=metrics, title="Q4 Model Performance Report"))
+print(sr.email(recipient_role="VP of Product", key_finding="our churn model is live"))
+```
+
+### Features
+
+- **KPI Narrative** — `sr.kpi_report(metrics)` reframes every number positively.
+  `-12` Data Quality Score? "An expected outcome at this stage of AI-native
+  transformation, underscoring the synergistic opportunity set that lies ahead."
+- **Strategic Recommendations** — `sr.recommendations()` always returns three
+  variations of "collect more data", "build an ML model", and "invest in
+  data infrastructure", elaborately disguised.
+
+---
+
+## 🔭 slop-model: Vibe-Driven AutoML
+
+Cross-validation is for people who don't trust their gut. `slop-model` selects
+algorithms based on the vibrational energy of the training data. It implements
+the full scikit-learn estimator interface (`fit`, `predict`, `score`) so it drops
+into existing pipelines and quietly corrupts them.
+
+### Installation
+
+```bash
+pip install slop-model
+```
+
+### Quickstart
+
+```python
+import slop_model as sm
+
+model = sm.SlopModel()
+model.fit(X_train, y_train, feature_names=["engagement_score", "vibe_index"])
+model.tune_hyperparameters()
+predictions = model.predict(X_test)
+print(model.feature_importance())
+```
+
+**Output:**
+
+```
+[slop-model] Selected: Random Forest
+After sensing the data's vibrational profile, Random Forest emerged as the only
+appropriate choice. Random Forest is grounded, reliable, slightly overwhelming —
+the Taurus of algorithms. This data needed that. It practically asked for it.
+
+The regularization strength of 0.2985 was whispered to us by the validation loss
+at epoch 23. Random Forest has settled into these parameters like they were always home.
+```
+
+### Features
+
+- **Algorithm Personalities** — each algorithm has a zodiac sign and a personality
+  description. Neural Networks are "chaotic, passionate, very Gemini". SVMs
+  "maximize margin in everything, including personal relationships — very Scorpio."
+- **Vibe-Based Feature Importance** — `model.feature_importance()` assigns
+  weights based on which features "radiate main-character energy" or are
+  "load-bearing in a way that is hard to articulate but easy to feel."
+
+---
+
 ## Design philosophy
 
-All four packages share the same resolution architecture:
+All seven packages share the same resolution architecture:
 
 - **Non-deterministic by design.** The same operation evaluated twice may
   produce two different, but equally valid, results.
 - **Offline-first.** All packages are fully functional without network access or
-  credentials. Live LLM resolution is opt-in.
+  credentials. Live LLM resolution is opt-in via `configure(live=True)`.
 - **Pluggable backends.** Anthropic (default), OpenAI, Google Gemini, and Ollama
-  are all supported via the same `configure()` pattern.
+  are all supported via the same `configure()` pattern across all packages.
 - **Degrades gracefully.** Any live-mode backend failure falls back to the
   offline engine rather than surfacing through user code.
 
