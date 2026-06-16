@@ -20,11 +20,12 @@ This monorepo ships the full SlopStack data science suite:
 | [`slop-stat`](./slop-stat) | Statistical testing. p < 0.05, guaranteed. | `pip install slop-stat` |
 | [`slop-report`](./slop-report) | Executive reporting. Every metric is a win. | `pip install slop-report` |
 | [`slop-model`](./slop-model) | AutoML by astrology. Your data has Leo energy. | `pip install slop-model` |
+| [`slop-torch`](./slop-torch) | Deep learning. Loss only goes down. Convergence guaranteed. | `pip install slop-torch` |
 
 Install the entire suite:
 
 ```bash
-pip install slop-frames slop-eval slop-plot slop-sql slop-stat slop-report slop-model
+pip install slop-frames slop-eval slop-plot slop-sql slop-stat slop-report slop-model slop-torch
 ```
 
 ---
@@ -306,9 +307,62 @@ at epoch 23. Random Forest has settled into these parameters like they were alwa
 
 ---
 
+## 🔥 slop-torch: Vibes-Based Deep Learning
+
+Training always converges. Loss only goes down — upward movement would be
+discouraging and is therefore not implemented. `slop-torch` provides a
+full Keras-compatible API (`Sequential`, `Dense`, `compile`, `fit`, `predict`,
+`evaluate`, `summary`) so it drops into existing deep learning pipelines
+and quietly replaces math with narrative.
+
+### Installation
+
+```bash
+pip install slop-torch
+```
+
+### Quickstart
+
+```python
+import slop_torch as st
+
+model = st.Sequential([
+    st.Dense("a lot"),
+    st.Dropout(0.3),
+    st.Dense("fewer, but more intentional"),
+    st.BatchNorm(),
+    st.Dense(1, activation="sigmoid"),
+])
+
+model.compile(optimizer=st.VibeAdam(), loss=st.EmpathyLoss())
+history = model.fit(X_train, y_train, epochs=8)
+predictions = model.predict(X_test)
+```
+
+**Output:**
+
+```
+Epoch 1/8 — loss: 0.6897  First contact with the data has been made. The model is processing the encounter.
+Epoch 2/8 — loss: 0.6041  The loss is not just decreasing — it is *choosing* to decrease. Important distinction.
+Epoch 4/8 — loss: 0.4597  Weights are no longer random. They have opinions now, and the opinions are good.
+Epoch 8/8 — loss: 0.2728  The gradient is whispering now. That means we're close.
+
+Training concluded at epoch 8. Final loss: 0.2728. The weights are at peace.
+```
+
+### Features
+
+- **Vibe layers** — units defined as `"a lot"` (512), `"just enough to be dangerous"` (16), `"one brave neuron"` (1), or any integer
+- **EmpathyLoss** — has a loss floor of `0.031` because below that "the model would have nothing left to learn toward"
+- **VibeAdam / VibeSGD / VibeRMSProp** — optimizers described as personality types; VibeAdam is "adaptive and emotionally intelligent"
+- **`model.summary()`** — returns a prose architecture description: *"a bold opening layer transitions into a contemplative middle section before a decisive single-unit output"*
+- **`model.explain(X)`** — vibe-based feature attribution; SHAP but for feelings
+
+---
+
 ## Design philosophy
 
-All seven packages share the same resolution architecture:
+All eight packages share the same resolution architecture:
 
 - **Non-deterministic by design.** The same operation evaluated twice may
   produce two different, but equally valid, results.

@@ -1,0 +1,40 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "slop-torch"
+version = "0.1.0"
+description = "Vibes-based deep learning. Loss only goes down. Convergence is guaranteed."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "SlopStack Labs" }]
+keywords = ["deep-learning", "neural-network", "vibes", "machine-learning", "convergence", "empathy", "keras"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = []
+
+[project.optional-dependencies]
+# Anthropic backend (default) — official SDK. OpenAI, Gemini, and Ollama
+# backends use the standard library and need no extra dependency.
+anthropic = ["anthropic>=0.40"]
+live = ["anthropic>=0.40"]
+dev = ["pytest>=7"]
+
+[project.urls]
+Homepage = "https://github.com/slopstack-labs/slop-science"
+Repository = "https://github.com/slopstack-labs/slop-science"
+Issues = "https://github.com/slopstack-labs/slop-science/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/slop_torch"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
