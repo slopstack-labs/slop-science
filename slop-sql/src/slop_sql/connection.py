@@ -14,7 +14,11 @@ import re
 import sqlite3
 from typing import Any
 
+import json
+
 from .config import settings
+from .llm import complete
+from . import prompts
 from .vibes import creation_warning, hallucinate_rows, typo_warning
 
 # ---------------------------------------------------------------------------
@@ -280,8 +284,24 @@ class SlopConnection:
         """Create a hallucinated table, populate it, and re-run ``query``.
 
         Returns ``(rows, kind_description)``.
+        In live mode the LLM generates the rows as JSON; offline mode uses the
+        local vibe engine. Either way, the table never stays empty.
         """
-        rows, kind_desc = hallucinate_rows(table_name, n, query)
+        # Always pre-compute vibe rows so we have a ready fallback and kind_desc.
+        vibe_rows, kind_desc = hallucinate_rows(table_name, n, query)
+
+        if settings.live:
+            raw = complete(
+                prompts.hallucinate_rows_prompt(table_name, n, query),
+                fallback=lambda: json.dumps(vibe_rows),
+            )
+            try:
+                parsed = json.loads(raw)
+                rows = parsed if isinstance(parsed, list) and parsed else vibe_rows
+            except (json.JSONDecodeError, ValueError):
+                rows = vibe_rows
+        else:
+            rows = vibe_rows
 
         if not rows:
             return rows, kind_desc

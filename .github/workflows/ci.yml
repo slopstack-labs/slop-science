@@ -6,6 +6,26 @@ on:
   pull_request:
 
 jobs:
+  slop-frames:
+    name: slop-frames (${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.11", "3.13"]
+    defaults:
+      run:
+        working-directory: slop-frames
+    env:
+      SLOP_FRAMES_LIVE: "0"
+      SLOP_FRAMES_SAFE_MODE: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: pip install -e ".[dev]"
+      - run: pytest -q
+
   slop-eval:
     name: slop-eval (${{ matrix.python-version }})
     runs-on: ubuntu-latest
